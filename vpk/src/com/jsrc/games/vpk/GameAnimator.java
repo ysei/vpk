@@ -27,20 +27,26 @@ import com.jsrc.games.vpk.server.Game;
 
 public class GameAnimator implements ActionListener {
 
-	public GameAnimator(Game game, com.jsrc.games.vpk.client.Game gameClient, JPanel panel) {
+	public GameAnimator(Game game, 
+			com.jsrc.games.vpk.client.Game gameClient1, 
+			com.jsrc.games.vpk.client.Game gameClient2, 
+			JPanel panel) {
 		this.game = game;
-		this.gameClient = gameClient;
+		this.gameClient1 = gameClient1;
+		this.gameClient2 = gameClient2;
 		this.panel = panel;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		game.step();
-		gameClient.step();
+		gameClient1.step();
+		gameClient2.step();
 		panel.repaint();
 	}
 	
 	Game game;
-	com.jsrc.games.vpk.client.Game gameClient;
+	com.jsrc.games.vpk.client.Game gameClient1;
+	com.jsrc.games.vpk.client.Game gameClient2;
 	JPanel panel;
 }

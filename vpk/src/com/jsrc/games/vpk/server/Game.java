@@ -37,7 +37,7 @@ public class Game {
 	public void step() {
 		{
 			MoveMsg msg;
-			while((msg = comm.receiveTC()) != null) {
+			while((msg = comm1.receiveTC()) != null) {
 				moveTo(msg.getX(), msg.getY());
 			}
 		}
@@ -46,7 +46,11 @@ public class Game {
 		}
 		for (Unit unit : units) {
 			UnitMsg msg = new UnitMsg(unit.getX(), unit.getY(), unit.getOrientation());
-			comm.sendTM(msg);
+			comm1.sendTM(msg);
+		}
+		for (Unit unit : units) {
+			UnitMsg msg = new UnitMsg(unit.getX(), unit.getY(), unit.getOrientation());
+			comm2.sendTM(msg);
 		}
 	}
 
@@ -54,11 +58,15 @@ public class Game {
 		units.get(0).moveTo(x, y);
 	}
 
-	public void setComm(Transceiver comm) {
-		this.comm = comm;
+	public void setComm1(Transceiver comm) {
+		this.comm1 = comm;
+	}
+	public void setComm2(Transceiver comm) {
+		this.comm2 = comm;
 	}
 	
 	private List<Unit> units; 
 	
-	private Transceiver comm;
+	private Transceiver comm1;
+	private Transceiver comm2;
 }

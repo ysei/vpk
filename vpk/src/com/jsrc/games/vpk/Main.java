@@ -67,14 +67,21 @@ public class Main {
 		frame.pack();
 		frame.setVisible(true);
 
-		Transceiver rxtx = new Transceiver();
+		Transceiver rxtx1 = new Transceiver();
+		Transceiver rxtx2 = new Transceiver();
 		Game game = GameBuilder.build();
-		game.setComm(rxtx);
-		com.jsrc.games.vpk.client.Game gameClient = new com.jsrc.games.vpk.client.Game();
-		gameClient.setComm(rxtx);
-		gamePanel.setGame(gameClient);
+		game.setComm1(rxtx1);
+		game.setComm2(rxtx2);
 		
-		Timer timer = new Timer(50, new GameAnimator(game, gameClient, gamePanel));
+		com.jsrc.games.vpk.client.Game gameClient1 = new com.jsrc.games.vpk.client.Game();
+		gameClient1.setComm(rxtx1);
+		gamePanel.setGame(gameClient1);
+		
+		com.jsrc.games.vpk.client.Game gameClient2 = new com.jsrc.games.vpk.client.Game();
+		gameClient2.setComm(rxtx2);
+		//ai.setGame(gameClient2);
+		
+		Timer timer = new Timer(50, new GameAnimator(game, gameClient1, gameClient2, gamePanel));
 		timer.start();
 	}
 }
