@@ -23,7 +23,8 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
-import com.jsrc.games.vpk.comm.Transceiver;
+import msg.Context;
+
 import com.jsrc.games.vpk.gui.IntegratedView;
 import com.jsrc.games.vpk.server.Game;
 
@@ -67,18 +68,26 @@ public class Main {
 		frame.pack();
 		frame.setVisible(true);
 
-		Transceiver rxtx1 = new Transceiver();
-		Transceiver rxtx2 = new Transceiver();
+		Context context = new Context();
+		context.createChannel("tm1");
+		context.createChannel("tc1");
+		context.createChannel("tm2");
+		context.createChannel("tc2");
+		
 		Game game = GameBuilder.build();
-		game.setComm1(rxtx1);
-		game.setComm2(rxtx2);
+		game.addTm(context.getSender("tm1"));
+		game.addTc(context.getReceiver("tc1"));
+		game.addTm(context.getSender("tm2"));
+		game.addTc(context.getReceiver("tc2"));
 		
 		com.jsrc.games.vpk.client.Game gameClient1 = new com.jsrc.games.vpk.client.Game();
-		gameClient1.setComm(rxtx1);
+		gameClient1.setTm(context.getReceiver("tm1"));
+		gameClient1.setTc(context.getSender("tc1"));
 		gamePanel.setGame(gameClient1);
 		
 		com.jsrc.games.vpk.client.Game gameClient2 = new com.jsrc.games.vpk.client.Game();
-		gameClient2.setComm(rxtx2);
+		gameClient2.setTm(context.getReceiver("tm2"));
+		gameClient2.setTc(context.getSender("tc2"));
 		//ai.setGame(gameClient2);
 		
 		Timer timer = new Timer(50, new GameAnimator(game, gameClient1, gameClient2, gamePanel));

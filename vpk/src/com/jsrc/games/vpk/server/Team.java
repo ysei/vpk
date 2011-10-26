@@ -16,35 +16,8 @@
  *  You should have received a copy of the GNU General Public License
  *  along with VPK.  If not, see <http://www.gnu.org/licenses/>. 
  */
-package com.jsrc.games.vpk.comm;
+package com.jsrc.games.vpk.server;
 
-import java.util.ArrayDeque;
-import java.util.Queue;
+public class Team {
 
-public class Transceiver {
-
-	public Transceiver() {
-		tm = new ArrayDeque<UnitMsg>();
-		tc = new ArrayDeque<MoveMsg>();
-	}
-	
-	public void sendTM(UnitMsg msg) {
-		tm.add(msg);
-	}
-	
-	public UnitMsg receiveTM() {
-		return tm.poll();
-	}
-	
-	public void sendTC(MoveMsg msg) {
-		tc.add(msg);
-	}
-	
-	public MoveMsg receiveTC() {
-		return tc.poll();
-	}
-	
-	private Queue<UnitMsg> tm;
-
-	private Queue<MoveMsg> tc;
 }

@@ -18,39 +18,51 @@
  */
 package com.jsrc.games.vpk.server;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import msg.Receiver;
+import msg.Sender;
+
 import com.jsrc.games.vpk.comm.MoveMsg;
-import com.jsrc.games.vpk.comm.Transceiver;
 import com.jsrc.games.vpk.comm.UnitMsg;
 
 public class Game {
 
-	public Game(List<Unit> units) {
-		this.units = units;
+	public Game() {
+		units = new ArrayList<Unit>();
+		teams = new ArrayList<Team>();
+		tmChannels = new ArrayList<Sender>();
+		tcChannels = new ArrayList<Receiver>();
+	}
+	
+	public void addUnit(Unit unit) {
+		units.add(unit);
 	}
 	
 	public List<Unit> getUnits() {
 		return units;
 	}
 	
+	public void addTeam(Team team) {
+		teams.add(team);
+	}
+	
 	public void step() {
 		{
 			MoveMsg msg;
-			while((msg = comm1.receiveTC()) != null) {
+			while((msg = (MoveMsg)tcChannels.get(0).receive()) != null) {
 				moveTo(msg.getX(), msg.getY());
 			}
 		}
 		for (Unit unit : units) {
 			unit.step();
 		}
-		for (Unit unit : units) {
-			UnitMsg msg = new UnitMsg(unit.getX(), unit.getY(), unit.getOrientation());
-			comm1.sendTM(msg);
-		}
-		for (Unit unit : units) {
-			UnitMsg msg = new UnitMsg(unit.getX(), unit.getY(), unit.getOrientation());
-			comm2.sendTM(msg);
+		for (Sender tm : tmChannels) {
+			for (Unit unit : units) {
+				UnitMsg msg = new UnitMsg(unit.getX(), unit.getY(), unit.getOrientation());
+				tm.send(msg);
+			}
 		}
 	}
 
@@ -58,15 +70,21 @@ public class Game {
 		units.get(0).moveTo(x, y);
 	}
 
-	public void setComm1(Transceiver comm) {
-		this.comm1 = comm;
-	}
-	public void setComm2(Transceiver comm) {
-		this.comm2 = comm;
+	public void addTm(Sender tm) {
+		tmChannels.add(tm);
 	}
 	
-	private List<Unit> units; 
+	public void addTc(Receiver tc) {
+		tcChannels.add(tc);
+	}
 	
-	private Transceiver comm1;
-	private Transceiver comm2;
+	
+	private List<Unit> units;
+	
+	private List<Team> teams;
+	
+	private List<Sender> tmChannels;
+
+	private List<Receiver> tcChannels;
+	
 }

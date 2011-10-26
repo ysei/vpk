@@ -21,8 +21,10 @@ package com.jsrc.games.vpk.client;
 import java.util.ArrayList;
 import java.util.List;
 
+import msg.Receiver;
+import msg.Sender;
+
 import com.jsrc.games.vpk.comm.MoveMsg;
-import com.jsrc.games.vpk.comm.Transceiver;
 import com.jsrc.games.vpk.comm.UnitMsg;
 
 public class Game {
@@ -38,21 +40,25 @@ public class Game {
 	public void step() {
 		units.clear();
 		UnitMsg msg;
-		while ((msg = comm.receiveTM()) != null) {
+		while ((msg = (UnitMsg)tm.receive()) != null) {
 			units.add(new Unit(msg.getX(), msg.getY(), msg.getOrientation()));
 		}
 	}
 
 	public void moveTo(double x, double y) {
-		comm.sendTC(new MoveMsg(x, y));
+		tc.send(new MoveMsg(x, y));
 	}
 	
-	public void setComm(Transceiver comm) {
-		this.comm = comm;
+	public void setTc(Sender tc) {
+		this.tc = tc;
+	}
+
+	public void setTm(Receiver tm) {
+		this.tm = tm;
 	}
 
 	private List<Unit> units; 
 	
-	private Transceiver comm;
-
+	private Sender tc; 
+	private Receiver tm;
 }
