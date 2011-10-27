@@ -40,6 +40,10 @@ public class BattlefieldView extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
+				
+		g2.scale(1, -1);
+		g2.translate(0, -getHeight());
+		
 		for (Unit u : game.getUnits()) {
 			g2.draw(new Ellipse2D.Double(u.getX(), u.getY(), 20, 20));
 		}

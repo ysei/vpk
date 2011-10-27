@@ -41,14 +41,14 @@ public class Unit {
 	
 	public void step() {		
 		x = x + speed * Math.cos(orientation);
-		y = y - speed * Math.sin(orientation);
+		y = y + speed * Math.sin(orientation);
 	}
 	
 	public void moveTo(double x, double y) {
 		System.out.println("Unit: Move to " + x + ", " + y);
 		
 		double dx = x - this.x;
-		double dy = - (y - this.y);
+		double dy = y - this.y;
 		orientation = Math.atan2(dy, dx);
 	}
 		
