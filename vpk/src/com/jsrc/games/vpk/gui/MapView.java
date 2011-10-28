@@ -22,6 +22,9 @@ import java.awt.Color;
 
 import javax.swing.JPanel;
 
+/**
+ * A view of the complete area of the conflict.
+ */
 @SuppressWarnings("serial")
 public class MapView extends JPanel {
 	

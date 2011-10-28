@@ -22,6 +22,9 @@ import java.awt.Color;
 
 import javax.swing.JPanel;
 
+/**
+ * A view of the commands available in the current context.
+ */
 @SuppressWarnings("serial")
 public class CommandView extends JPanel {
 	

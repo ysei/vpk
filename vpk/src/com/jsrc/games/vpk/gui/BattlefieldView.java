@@ -28,6 +28,9 @@ import javax.swing.JPanel;
 import com.jsrc.games.vpk.client.Game;
 import com.jsrc.games.vpk.client.Unit;
 
+/**
+ * A view of a region within the area of the battle.
+ */
 @SuppressWarnings("serial")
 public class BattlefieldView extends JPanel {
 	

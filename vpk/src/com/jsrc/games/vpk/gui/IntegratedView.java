@@ -25,6 +25,9 @@ import javax.swing.JPanel;
 
 import com.jsrc.games.vpk.client.Game;
 
+/**
+ * A view that integrates other views in a coherent and coordinated way.
+ */
 @SuppressWarnings("serial")
 public class IntegratedView extends JPanel {
 

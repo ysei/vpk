@@ -22,6 +22,9 @@ import java.awt.Color;
 
 import javax.swing.JPanel;
 
+/**
+ * A view of the units belonging to a team.
+ */
 @SuppressWarnings("serial")
 public class TeamView extends JPanel {
 	
