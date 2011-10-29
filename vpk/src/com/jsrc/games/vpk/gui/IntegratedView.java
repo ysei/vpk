@@ -19,6 +19,8 @@
 package com.jsrc.games.vpk.gui;
 
 import java.awt.Dimension;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -42,7 +44,7 @@ public class IntegratedView extends JPanel {
 		JPanel controlPanel = new JPanel();
 		controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
 		
-		MapView mapView = new MapView();
+		mapView = new MapView();
 		mapView.setMinimumSize(new Dimension(200, 200));
 		mapView.setPreferredSize(new Dimension(200, 200));
 		mapView.setMaximumSize(new Dimension(200, 200));
@@ -63,11 +65,20 @@ public class IntegratedView extends JPanel {
 		
 		add(battlefieldView);
 		add(controlPanel);
+		
+		battlefieldView.addComponentListener(new ComponentAdapter() {
+			public void componentResized(ComponentEvent e) {
+				mapView.setRegion(battlefieldView.getRegion());				
+			}
+		});
 	}
 	
 	public void setGame(Game game) {
 		battlefieldView.setGame(game);
+		mapView.setGame(game);
+		mapView.setRegion(battlefieldView.getRegion());
 	}
 	
 	private BattlefieldView battlefieldView;
+	private MapView mapView;
 }

@@ -26,6 +26,7 @@ import msg.Sender;
 
 import com.jsrc.games.vpk.comm.MoveMsg;
 import com.jsrc.games.vpk.comm.UnitMsg;
+import com.jsrc.games.vpk.geo.Map;
 
 public class Game {
 
@@ -57,6 +58,16 @@ public class Game {
 		this.tm = tm;
 	}
 
+	public void setMap(Map map) {
+		this.map = map;
+	}
+	
+	public Map getMap() {
+		return map;
+	}
+	
+	private Map map;
+	
 	private List<Unit> units; 
 	
 	private Sender tc; 

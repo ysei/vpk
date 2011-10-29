@@ -20,10 +20,18 @@ package com.jsrc.games.vpk.gui;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
+import javax.swing.event.MouseInputAdapter;
 
 import com.jsrc.games.vpk.client.Game;
 import com.jsrc.games.vpk.client.Unit;
@@ -36,34 +44,65 @@ public class BattlefieldView extends JPanel {
 	
 	public BattlefieldView() {
 		super();
-		enableEvents(MouseEvent.MOUSE_CLICKED);
+		
+		region = new Rectangle2D.Double();
+		transform = new AffineTransform();
+		scale = 2;
+		
+		addMouseListener(new MouseInputAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					Point2D p = transform.inverseTransform(e.getPoint(), null);
+					game.moveTo(p.getX(), p.getY());
+				} catch (NoninvertibleTransformException x) {
+					throw new RuntimeException(x);
+				}
+			}
+		});
+		
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				adjustTransform();
+			}
+		});
 	}
 	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-				
-		g2.scale(1, -1);
-		g2.translate(0, -getHeight());
-		
+		g2.transform(transform);
 		for (Unit u : game.getUnits()) {
 			g2.draw(new Ellipse2D.Double(u.getX(), u.getY(), 20, 20));
 		}
 	}
-	
-	@Override
-	protected void processMouseEvent(MouseEvent e) {
-		super.processMouseEvent(e);
-		if (e.getID() == MouseEvent.MOUSE_CLICKED) {
-			game.moveTo(e.getX(), e.getY());
-		}
-	}
-	
+			
 	public void setGame(Game game) {
 		this.game = game;
+		adjustTransform();
+	}
+	
+	public Shape getRegion() {
+		return (Shape) region.clone();
+	}
+	
+	private void adjustTransform() {
+		transform.setToIdentity();
+		transform.scale(1, -1);
+		transform.translate(0, -getHeight());
+		transform.scale(scale, scale);
+		
+		region.setRect(region.getX(), region.getY(), 
+				getWidth() / scale, getHeight() / scale);
 	}
 	
 	private Game game;
-
+	
+	private Rectangle2D.Double region;
+	
+	private AffineTransform transform;
+	
+	double scale;
 }

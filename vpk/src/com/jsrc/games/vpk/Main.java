@@ -25,6 +25,7 @@ import javax.swing.Timer;
 
 import msg.Context;
 
+import com.jsrc.games.vpk.geo.Map;
 import com.jsrc.games.vpk.gui.IntegratedView;
 import com.jsrc.games.vpk.server.Game;
 
@@ -81,6 +82,7 @@ public class Main {
 		game.addTc(context.getReceiver("tc2"));
 		
 		com.jsrc.games.vpk.client.Game gameClient1 = new com.jsrc.games.vpk.client.Game();
+		gameClient1.setMap(new Map());
 		gameClient1.setTm(context.getReceiver("tm1"));
 		gameClient1.setTc(context.getSender("tc1"));
 		gamePanel.setGame(gameClient1);
