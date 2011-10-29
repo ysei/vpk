@@ -67,18 +67,36 @@ public class IntegratedView extends JPanel {
 		add(controlPanel);
 		
 		battlefieldView.addComponentListener(new ComponentAdapter() {
+			@Override
 			public void componentResized(ComponentEvent e) {
+				mapView.setRegion(battlefieldView.getRegion());				
+			}
+		});
+		
+		battlefieldView.addPointSelectionListener(new PointSelectionListener() {
+			@Override
+			public void pointSelected(PointSelectionEvent e) {
+				game.moveTo(e.getPoint().getX(), e.getPoint().getY());
+			}
+		});
+		
+		mapView.addPointSelectionListener(new PointSelectionListener() {
+			@Override
+			public void pointSelected(PointSelectionEvent e) {
+				battlefieldView.setRegionCenter(e.getPoint());
 				mapView.setRegion(battlefieldView.getRegion());				
 			}
 		});
 	}
 	
 	public void setGame(Game game) {
+		this.game = game;
 		battlefieldView.setGame(game);
 		mapView.setGame(game);
 		mapView.setRegion(battlefieldView.getRegion());
 	}
 	
+	private Game game;
 	private BattlefieldView battlefieldView;
 	private MapView mapView;
 }

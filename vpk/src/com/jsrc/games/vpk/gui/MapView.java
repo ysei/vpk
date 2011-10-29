@@ -21,12 +21,20 @@ package com.jsrc.games.vpk.gui;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
+import javax.swing.event.MouseInputAdapter;
 
 import com.jsrc.games.vpk.client.Game;
+import com.jsrc.games.vpk.client.Unit;
 
 /**
  * A view of the complete area of the conflict.
@@ -38,6 +46,21 @@ public class MapView extends JPanel {
 		super();
 		region = new Rectangle2D.Double();
 		transform = new AffineTransform();
+		pointSelectionListeners = new ArrayList<PointSelectionListener>();
+
+		addMouseListener(new MouseInputAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					Point2D point = transform.inverseTransform(e.getPoint(), null);
+					for (PointSelectionListener l : pointSelectionListeners) {
+						l.pointSelected(new PointSelectionEvent(this, point));
+					}
+				} catch (NoninvertibleTransformException x) {
+					throw new RuntimeException(x);
+				}
+			}
+		});
 	}
 	
 	/* (non-Javadoc)
@@ -49,6 +72,9 @@ public class MapView extends JPanel {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.transform(transform);
 		g2.draw(region);
+		for (Unit u : game.getUnits()) {
+			g2.draw(new Rectangle2D.Double(u.getX(), u.getY(), 2, 2));
+		}
 	}
 	
 	public void setRegion(Shape region) {
@@ -60,6 +86,14 @@ public class MapView extends JPanel {
 		adjustTransform();
 	}
 	
+	public void addPointSelectionListener(PointSelectionListener l) {
+		pointSelectionListeners.add(l);
+	}
+	
+	public void removePointSelectionListener(PointSelectionListener l) {
+		pointSelectionListeners.remove(l);
+	}
+
 	private void adjustTransform() {
 		transform.setToIdentity();
 		transform.scale(1, -1);
@@ -74,4 +108,6 @@ public class MapView extends JPanel {
 	private AffineTransform transform;
 	
 	private Game game;
+	
+	protected List<PointSelectionListener> pointSelectionListeners;
 }

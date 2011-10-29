@@ -29,6 +29,8 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
@@ -47,14 +49,18 @@ public class BattlefieldView extends JPanel {
 		
 		region = new Rectangle2D.Double();
 		transform = new AffineTransform();
-		scale = 2;
+		scale = 1;
+		
+		pointSelectionListeners = new ArrayList<PointSelectionListener>();
 		
 		addMouseListener(new MouseInputAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					Point2D p = transform.inverseTransform(e.getPoint(), null);
-					game.moveTo(p.getX(), p.getY());
+					Point2D point = transform.inverseTransform(e.getPoint(), null);
+					for (PointSelectionListener l : pointSelectionListeners) {
+						l.pointSelected(new PointSelectionEvent(this, point));
+					}
 				} catch (NoninvertibleTransformException x) {
 					throw new RuntimeException(x);
 				}
@@ -88,11 +94,27 @@ public class BattlefieldView extends JPanel {
 		return (Shape) region.clone();
 	}
 	
+	public void setRegionCenter(Point2D center) {
+		Point2D corner = new Point2D.Double(center.getX() + region.getWidth() / 2, 
+				                            center.getY() + region.getHeight() / 2);
+		region.setFrameFromCenter(center, corner);
+		adjustTransform();
+	}
+	
+	public void addPointSelectionListener(PointSelectionListener l) {
+		pointSelectionListeners.add(l);
+	}
+	
+	public void removePointSelectionListener(PointSelectionListener l) {
+		pointSelectionListeners.remove(l);
+	}
+	
 	private void adjustTransform() {
 		transform.setToIdentity();
 		transform.scale(1, -1);
 		transform.translate(0, -getHeight());
 		transform.scale(scale, scale);
+		transform.translate(-region.getX(), -region.getY());
 		
 		region.setRect(region.getX(), region.getY(), 
 				getWidth() / scale, getHeight() / scale);
@@ -105,4 +127,6 @@ public class BattlefieldView extends JPanel {
 	private AffineTransform transform;
 	
 	double scale;
+	
+	protected List<PointSelectionListener> pointSelectionListeners;
 }
