@@ -16,26 +16,9 @@
  *  You should have received a copy of the GNU General Public License
  *  along with VPK.  If not, see <http://www.gnu.org/licenses/>. 
  */
-package msg;
+package com.jsrc.games.vpk.msg;
 
-import java.util.ArrayDeque;
-import java.util.Queue;
+public interface Sender {
 
-public class Channel implements Sender, Receiver {
-	
-	public Channel() {
-		queue = new ArrayDeque<Object>();
-	}
-
-	@Override
-	public Object receive() {
-		return queue.poll();
-	}
-
-	@Override
-	public void send(Object message) {
-		queue.add(message);		
-	}
-
-	Queue<Object> queue;
+	public void send(Object message);
 }

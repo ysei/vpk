@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with VPK.  If not, see <http://www.gnu.org/licenses/>. 
  */
-package msg;
+package com.jsrc.games.vpk.msg;
 
 import java.util.Map;
 import java.util.TreeMap;

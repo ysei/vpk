@@ -21,12 +21,12 @@ package com.jsrc.games.vpk.client;
 import java.util.ArrayList;
 import java.util.List;
 
-import msg.Receiver;
-import msg.Sender;
 
 import com.jsrc.games.vpk.comm.MoveMsg;
 import com.jsrc.games.vpk.comm.UnitMsg;
 import com.jsrc.games.vpk.geo.Map;
+import com.jsrc.games.vpk.msg.Receiver;
+import com.jsrc.games.vpk.msg.Sender;
 
 public class Game {
 

@@ -23,10 +23,10 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
-import msg.Context;
 
 import com.jsrc.games.vpk.geo.Map;
 import com.jsrc.games.vpk.gui.IntegratedView;
+import com.jsrc.games.vpk.msg.Context;
 import com.jsrc.games.vpk.server.Game;
 
 /**
