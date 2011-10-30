@@ -18,8 +18,15 @@
  */
 package com.jsrc.games.vpk.msg;
 
+/**
+ * A communication end-point for receiving messages.
+ */
 public interface Receiver {
 	
+	/**
+	 * Receives a message.
+	 * @return The received message.
+	 */
 	public Object receive();
 
 }

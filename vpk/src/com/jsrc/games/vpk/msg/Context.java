@@ -21,23 +21,44 @@ package com.jsrc.games.vpk.msg;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * This class allows to create communication channels.
+ */
 public class Context {
 
+	/**
+	 * Constructor.
+	 */
 	public Context() {
 		channels = new TreeMap<String, Channel>();
 	}
 	
+	/**
+	 * Creates a new channel identified by the name.
+	 * @param name The name of the new channel.
+	 */
 	public void createChannel(String name) {
 		channels.put(name, new Channel());
 	}
 	
+	/**
+	 * Returns the sender end-point of the channel with the given name.
+	 * @param name The name of the channel.
+	 * @return The sender end-point of the channel with the given name.
+	 */
 	public Sender getSender(String name) {
 		return channels.get(name);
 	}
 	
+	/**
+	 * Returns the receiver end-point of the channel with the given name.
+	 * @param name The name of the channel.
+	 * @return The receiver end-point of the channel with the given name.
+	 */
 	public Receiver getReceiver(String name) {
 		return channels.get(name);
 	}
 	
+	/** The channels in this context. */
 	private Map<String, Channel> channels;
 }

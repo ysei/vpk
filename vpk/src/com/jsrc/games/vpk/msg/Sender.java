@@ -18,7 +18,14 @@
  */
 package com.jsrc.games.vpk.msg;
 
+/**
+ * A communication end-point for sending messages.
+ */
 public interface Sender {
 
+	/**
+	 * Sends a message.
+	 * @param message The message to be sent.
+	 */
 	public void send(Object message);
 }

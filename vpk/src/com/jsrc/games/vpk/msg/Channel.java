@@ -21,21 +21,34 @@ package com.jsrc.games.vpk.msg;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
+/**
+ * A communication queue for transmiting messages.
+ */
 public class Channel implements Sender, Receiver {
 	
+	/**
+	 * Constructor.
+	 */
 	public Channel() {
 		queue = new ArrayDeque<Object>();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.jsrc.games.vpk.msg.Receiver#receive()
+	 */
 	@Override
 	public Object receive() {
 		return queue.poll();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.jsrc.games.vpk.msg.Sender#send(java.lang.Object)
+	 */
 	@Override
 	public void send(Object message) {
 		queue.add(message);		
 	}
 
+	/** The internal message queue. */
 	Queue<Object> queue;
 }
