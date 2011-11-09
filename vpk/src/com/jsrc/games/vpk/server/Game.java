@@ -20,6 +20,9 @@ package com.jsrc.games.vpk.server;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 import com.jsrc.games.vpk.comm.MoveMsg;
@@ -27,7 +30,7 @@ import com.jsrc.games.vpk.comm.UnitMsg;
 import com.jsrc.games.vpk.msg.Receiver;
 import com.jsrc.games.vpk.msg.Sender;
 
-public class Game {
+public class Game implements Runnable {
 
 	public Game() {
 		units = new ArrayList<Unit>();
@@ -78,6 +81,14 @@ public class Game {
 		tcChannels.add(tc);
 	}
 	
+	public void start() {
+		ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+		executor.scheduleAtFixedRate(this, 5, 100, TimeUnit.MILLISECONDS);
+	}
+	
+	public void run() {
+		step();
+	}
 	
 	private List<Unit> units;
 	

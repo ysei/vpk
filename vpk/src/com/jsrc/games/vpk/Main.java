@@ -92,7 +92,8 @@ public class Main {
 		gameClient2.setTc(context.getSender("tc2"));
 		//ai.setGame(gameClient2);
 		
-		Timer timer = new Timer(50, new GameAnimator(game, gameClient1, gameClient2, gamePanel));
+		Timer timer = new Timer(50, new GameAnimator(gameClient1, gameClient2, gamePanel));
 		timer.start();
+		game.start();
 	}
 }
