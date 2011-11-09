@@ -26,6 +26,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -81,7 +82,12 @@ public class BattlefieldView extends JPanel {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.transform(transform);
 		for (Unit u : game.getUnits()) {
-			g2.draw(new Ellipse2D.Double(u.getX(), u.getY(), 20, 20));
+			g2.draw(new Ellipse2D.Double(u.getX() - 10, u.getY() - 10, 20, 20));
+			g2.draw(new Line2D.Double(
+					u.getX(), 
+					u.getY(), 
+					u.getX() + 10 * Math.cos(u.getOrientation()),
+					u.getY() + 10 * Math.sin(u.getOrientation())));
 		}
 	}
 			
