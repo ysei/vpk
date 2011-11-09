@@ -37,7 +37,6 @@ public class Unit {
 		this.id = id;
 		this.x = x;
 		this.y = y;
-		this.speed = 1;
 		this.orientation = orientation;
 	}
 	
@@ -56,28 +55,13 @@ public class Unit {
 	public double getOrientation() {
 		return orientation;
 	}
-	
-	public void step() {		
-		x = x + speed * Math.cos(orientation);
-		y = y - speed * Math.sin(orientation);
-	}
-	
-	public void moveTo(double x, double y) {
-		System.out.println("Unit: Move to " + x + ", " + y);
 		
-		double dx = x - this.x;
-		double dy = - (y - this.y);
-		orientation = Math.atan2(dy, dx);
-	}
-	
 	private int id;
 		
 	private double x;
 	
 	private double y;
-	
-	private double speed;
-		
+			
 	/** Orientation in radians, 0 is east. */ 
 	private double orientation;
 
