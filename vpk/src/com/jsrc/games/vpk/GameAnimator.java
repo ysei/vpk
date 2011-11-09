@@ -23,25 +23,24 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
+import com.jsrc.games.vpk.client.Game;
+
 public class GameAnimator implements ActionListener {
 
-	public GameAnimator(
-			com.jsrc.games.vpk.client.Game gameClient1, 
-			com.jsrc.games.vpk.client.Game gameClient2, 
-			JPanel panel) {
-		this.gameClient1 = gameClient1;
-		this.gameClient2 = gameClient2;
+	public GameAnimator(Game game1, Game game2, JPanel panel) {
+		this.game1 = game1;
+		this.game2 = game2;
 		this.panel = panel;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		gameClient1.step();
-		gameClient2.step();
+		game1.step();
+		game2.step();
 		panel.repaint();
 	}
 	
-	com.jsrc.games.vpk.client.Game gameClient1;
-	com.jsrc.games.vpk.client.Game gameClient2;
+	Game game1;
+	Game game2;
 	JPanel panel;
 }
