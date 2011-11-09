@@ -18,11 +18,11 @@
  */
 package com.jsrc.games.vpk.msg;
 
-import java.util.ArrayDeque;
-import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * A communication queue for transmiting messages.
+ * A communication queue for transmitting messages.
  */
 public class Channel implements Sender, Receiver {
 	
@@ -30,7 +30,7 @@ public class Channel implements Sender, Receiver {
 	 * Constructor.
 	 */
 	public Channel() {
-		queue = new ArrayDeque<Object>();
+		queue = new LinkedBlockingQueue<Object>();
 	}
 
 	/* (non-Javadoc)
@@ -50,5 +50,5 @@ public class Channel implements Sender, Receiver {
 	}
 
 	/** The internal message queue. */
-	Queue<Object> queue;
+	BlockingQueue<Object> queue;
 }
