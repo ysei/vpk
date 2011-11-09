@@ -18,9 +18,8 @@
  */
 package com.jsrc.games.vpk.client;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.Collection;
+import java.util.TreeMap;
 
 import com.jsrc.games.vpk.comm.MoveMsg;
 import com.jsrc.games.vpk.comm.UnitMsg;
@@ -31,18 +30,21 @@ import com.jsrc.games.vpk.msg.Sender;
 public class Game {
 
 	public Game() {
-		units = new ArrayList<Unit>();
+		units = new TreeMap<Integer, Unit>();
 	}
 	
-	public List<Unit> getUnits() {
-		return units;
+	public Collection<Unit> getUnits() {
+		return units.values();
 	}
 	
 	public void step() {
-		units.clear();
 		UnitMsg msg;
 		while ((msg = (UnitMsg)tm.receive()) != null) {
-			units.add(new Unit(msg.getX(), msg.getY(), msg.getOrientation()));
+			if (units.containsKey(msg.getId())) {
+				units.get(msg.getId()).updateFromMsg(msg);
+			} else {
+				units.put(msg.getId(), Unit.createFromMsg(msg));
+			}
 		}
 	}
 
@@ -68,7 +70,7 @@ public class Game {
 	
 	private Map map;
 	
-	private List<Unit> units; 
+	private java.util.Map<Integer, Unit> units;
 	
 	private Sender tc; 
 	private Receiver tm;

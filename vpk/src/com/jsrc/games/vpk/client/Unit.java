@@ -18,13 +18,31 @@
  */
 package com.jsrc.games.vpk.client;
 
-public class Unit {
+import com.jsrc.games.vpk.comm.UnitMsg;
 
-	public Unit(double x, double y, double orientation) {
+public class Unit {
+	
+	public static Unit createFromMsg(UnitMsg msg) {
+		Unit u = new Unit(msg.getId(), msg.getX(), msg.getY(), msg.getOrientation());
+		return u;
+	}
+	
+	public void updateFromMsg(UnitMsg msg) {
+		x = msg.getX();
+		y = msg.getY();
+		orientation = msg.getOrientation();
+	}
+
+	public Unit(int id, double x, double y, double orientation) {
+		this.id = id;
 		this.x = x;
 		this.y = y;
 		this.speed = 1;
 		this.orientation = orientation;
+	}
+	
+	public int getId() {
+		return id;
 	}
 	
 	public double getX() {
@@ -51,6 +69,8 @@ public class Unit {
 		double dy = - (y - this.y);
 		orientation = Math.atan2(dy, dx);
 	}
+	
+	private int id;
 		
 	private double x;
 	

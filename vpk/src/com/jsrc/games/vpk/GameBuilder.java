@@ -25,8 +25,8 @@ public class GameBuilder {
 
 	public static Game build() {
 		Game game = new Game();
-		game.addUnit(new Unit(100, 100, 0));
-		game.addUnit(new Unit(400, 400, 1.6));
+		game.addUnit(new Unit(1, 100, 100, 0));
+		game.addUnit(new Unit(2, 400, 400, 1.6));
 		return game;
 	}
 }

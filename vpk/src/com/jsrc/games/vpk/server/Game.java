@@ -63,7 +63,7 @@ public class Game implements Runnable {
 		}
 		for (Sender tm : tmChannels) {
 			for (Unit unit : units) {
-				UnitMsg msg = new UnitMsg(unit.getX(), unit.getY(), unit.getOrientation());
+				UnitMsg msg = new UnitMsg(unit.getId(), unit.getX(), unit.getY(), unit.getOrientation());
 				tm.send(msg);
 			}
 		}

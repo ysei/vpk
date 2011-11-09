@@ -20,11 +20,16 @@ package com.jsrc.games.vpk.server;
 
 public class Unit {
 
-	public Unit(double x, double y, double orientation) {
+	public Unit(int id, double x, double y, double orientation) {
+		this.id = id;
 		this.x = x;
 		this.y = y;
 		this.speed = 1;
 		this.orientation = orientation;
+	}
+	
+	public int getId() {
+		return id;
 	}
 	
 	public double getX() {
@@ -51,6 +56,8 @@ public class Unit {
 		double dy = y - this.y;
 		orientation = Math.atan2(dy, dx);
 	}
+	
+	private int id;
 		
 	private double x;
 	
